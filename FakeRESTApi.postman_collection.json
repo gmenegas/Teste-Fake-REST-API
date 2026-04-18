@@ -1,0 +1,261 @@
+{
+  "info": {
+    "_postman_id": "81a5e7bf-7b2f-434c-a872-61da65a56afb",
+    "name": "FakeRESTApi",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51180825",
+    "_collection_link": "https://go.postman.co/collection/51180825-81a5e7bf-7b2f-434c-a872-61da65a56afb?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Atividades",
+      "item": [
+        {
+          "name": "Lista",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validação da Lista de Atividades\", function () {\r",
+                  "    const response = pm.response;\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "\r",
+                  "    // Status\r",
+                  "    pm.test(\"Valida se o status code é 200\", function () {\r",
+                  "        pm.expect(response.code).to.eql(200);\r",
+                  "    });\r",
+                  "\r",
+                  "    // Tempo\r",
+                  "    pm.test(\"Tempo deve ser < 1000\", function () {\r",
+                  "        pm.expect(response.responseTime).to.be.below(1000);\r",
+                  "    });\r",
+                  "\r",
+                  "    // Estrutura\r",
+                  "    const schema = {\r",
+                  "        \"type\": \"array\",\r",
+                  "        \"items\": {\r",
+                  "            \"type\": \"object\",\r",
+                  "            \"properties\": {\r",
+                  "                \"id\": {\r",
+                  "                    \"type\": \"number\"\r",
+                  "                },\r",
+                  "                \"title\": {\r",
+                  "                    \"type\": \"string\"\r",
+                  "                },\r",
+                  "                \"dueDate\": {\r",
+                  "                    \"type\": \"string\",\r",
+                  "                    \"pattern\": \"^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}\\\\.\\\\d{1,7}[+-]\\\\d{2}:\\\\d{2}$\"\r",
+                  "                },\r",
+                  "                \"completed\": {\r",
+                  "                    \"type\": \"boolean\"\r",
+                  "                }\r",
+                  "            },\r",
+                  "            \"required\": [\r",
+                  "                \"id\",\r",
+                  "                \"title\",\r",
+                  "                \"dueDate\",\r",
+                  "                \"completed\"\r",
+                  "            ]\r",
+                  "        }\r",
+                  "    }\r",
+                  "\r",
+                  "    pm.test('Valida estrutura do retorno', () => {\r",
+                  "        pm.expect(pm.response.json()).to.have.jsonSchema(schema);\r",
+                  "    });\r",
+                  "\r",
+                  "    pm.environment.set(\"atividadeId\", jsonData[0].id);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseurl}}/api/v1/Activities",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "Activities"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Busca por ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validação da Atividade por ID\", function () {\r",
+                  "    const response = pm.response;\r",
+                  "\r",
+                  "    // Status\r",
+                  "    pm.test(\"Valida se o status code é 200\", function () {\r",
+                  "        pm.expect(response.code).to.eql(200);\r",
+                  "    });\r",
+                  "\r",
+                  "    // Tempo\r",
+                  "    pm.test(\"Tempo deve ser < 1000\", function () {\r",
+                  "        pm.expect(response.responseTime).to.be.below(1000);\r",
+                  "    });\r",
+                  "\r",
+                  "    // Estrutura\r",
+                  "    const schema = {\r",
+                  "        \"$schema\": \"http://json-schema.org/draft-07/schema#\",\r",
+                  "        \"title\": \"Generated schema for Root\",\r",
+                  "        \"type\": \"object\",\r",
+                  "        \"properties\": {\r",
+                  "            \"id\": {\r",
+                  "                \"type\": \"number\"\r",
+                  "            },\r",
+                  "            \"title\": {\r",
+                  "                \"type\": \"string\"\r",
+                  "            },\r",
+                  "            \"dueDate\": {\r",
+                  "                \"type\": \"string\",\r",
+                  "                \"pattern\": \"^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}\\\\.\\\\d{1,7}[+-]\\\\d{2}:\\\\d{2}$\"\r",
+                  "            },\r",
+                  "            \"completed\": {\r",
+                  "                \"type\": \"boolean\"\r",
+                  "            }\r",
+                  "        },\r",
+                  "        \"required\": [\r",
+                  "            \"id\",\r",
+                  "            \"title\",\r",
+                  "            \"dueDate\",\r",
+                  "            \"completed\"\r",
+                  "        ]\r",
+                  "    }\r",
+                  "\r",
+                  "    pm.test('Valida estrutura do retorno', () => {\r",
+                  "        pm.expect(pm.response.json()).to.have.jsonSchema(schema);\r",
+                  "    });\r",
+                  "\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseurl}}/api/v1/Activities/{{atividadeId}}",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "Activities",
+                "{{atividadeId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Adicionar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validar inserção de dados\", function () {\r",
+                  "    const response = pm.response;\r",
+                  "\r",
+                  "    // Status\r",
+                  "    pm.test(\"Valida se o status code é 200\", function () {\r",
+                  "        pm.expect(response.code).to.eql(200);\r",
+                  "    });\r",
+                  "\r",
+                  "    // Tempo\r",
+                  "    pm.test(\"Tempo deve ser < 1000\", function () {\r",
+                  "        pm.expect(response.responseTime).to.be.below(1000);\r",
+                  "    });\r",
+                  "\r",
+                  "    // Estrutura\r",
+                  "    const schema = {\r",
+                  "        \"$schema\": \"http://json-schema.org/draft-07/schema#\",\r",
+                  "        \"title\": \"Generated schema for Root\",\r",
+                  "        \"type\": \"object\",\r",
+                  "        \"properties\": {\r",
+                  "            \"id\": {\r",
+                  "                \"type\": \"number\"\r",
+                  "            },\r",
+                  "            \"title\": {\r",
+                  "                \"type\": \"string\"\r",
+                  "            },\r",
+                  "            \"dueDate\": {\r",
+                  "                \"type\": \"string\",\r",
+                  "                \"pattern\": \"^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}(\\\\.\\\\d{1,7})?(Z|[+-]\\\\d{2}:\\\\d{2})$\"\r",
+                  "            },\r",
+                  "            \"completed\": {\r",
+                  "                \"type\": \"boolean\"\r",
+                  "            }\r",
+                  "        },\r",
+                  "        \"required\": [\r",
+                  "            \"id\",\r",
+                  "            \"title\",\r",
+                  "            \"dueDate\",\r",
+                  "            \"completed\"\r",
+                  "        ]\r",
+                  "    }\r",
+                  "\r",
+                  "    pm.test('Valida estrutura do retorno', () => {\r",
+                  "        pm.expect(pm.response.json()).to.have.jsonSchema(schema);\r",
+                  "    });\r",
+                  "\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 31,\r\n  \"title\": \"Gabriella\",\r\n  \"dueDate\": \"2026-04-18T18:20:13.112Z\",\r\n  \"completed\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseurl}}/api/v1/Activities",
+              "host": [
+                "{{baseurl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "Activities"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
